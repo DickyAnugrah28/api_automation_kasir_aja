@@ -32,17 +32,20 @@ async function updateUser(userId, token){ //function update user
 
     return (await response)
 }
-/**
- * Represents a book.
- * @param {string} token - The title of the book.
- * @param {string} userId - The author of the book.
- * 
- * @returns {string}
- */
+
 async function getUserId(token, userId){ //function get detail user
     const response = await request(config.baseUrl)
 
     .get(`/users/${userId}`)
+    .set("Authorization", `Bearer ${token}`)
+
+    return (await response)
+}
+
+async function deleteUser(token, userId){ //function delete user
+    const response = await request(config.baseUrl)
+
+    .delete(`/users/${userId}`)
     .set("Authorization", `Bearer ${token}`)
 
     return (await response)
@@ -70,7 +73,7 @@ describe('TS User', () => {
         userId = (await response).body.data.users[0].id
 
         expect(response.status).to.equal(200)
-        console.log(response.body.data)
+        //console.log(response.body.data)
     })
 
     it ('Update user', async () => {
@@ -79,17 +82,26 @@ describe('TS User', () => {
         
         //console.log({response})
         expect(response.status).to.equal(200)
-        console.log(response.body.data)
+        //console.log(response.body.data)
     })
 
-    it ('Get list user id string', async () => {
+    it ('Get list user id', async () => {
         const token = await getToken()
-        const response = await getUserId(token, userId)
+        const response = await getUserId(token,userId)
         
         expect(response.status).to.equal(200)
-        console.log(response.body.data)
+        //console.log(response.body.data)
     
   
+  })
+  
+  it ('Delete user', async () => {
+    const token = await getToken()
+    const response = await deleteUser(token,userId)
+
+    expect(response.status).to.equal(200)    //expect(response.status).body.message("User berhasil dihapus")
+    //console.log(response.body.message)
+
   })
 })
 
