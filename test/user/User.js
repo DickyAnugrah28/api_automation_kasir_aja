@@ -32,7 +32,13 @@ async function updateUser(userId, token){ //function update user
 
     return (await response)
 }
-
+/**
+ * Represents a book.
+ * @param {string} token - The title of the book.
+ * @param {string} userId - The author of the book.
+ * 
+ * @returns {string}
+ */
 async function getUserId(token, userId){ //function get detail user
     const response = await request(config.baseUrl)
 
@@ -76,13 +82,14 @@ describe('TS User', () => {
         console.log(response.body.data)
     })
 
-    it ('Get list user id', async () => {
+    it ('Get list user id string', async () => {
         const token = await getToken()
         const response = await getUserId(token, userId)
         
         expect(response.status).to.equal(200)
         console.log(response.body.data)
     
-    })
+  
+  })
 })
 
